@@ -1,0 +1,24 @@
+{
+  "name": "httpmocker",
+  "version": "1.0.0",
+  "description": "http request mocker",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape tests/test-*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:yorkie/node-httpmocker.js"
+  },
+  "keywords": [
+    "mocker",
+    "http",
+    "injection"
+  ],
+  "author": "Yorkie Liu <yorkiefixer@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yorkie/node-httpmocker.js/issues"
+  },
+  "homepage": "https://github.com/yorkie/node-httpmocker.js"
+}
