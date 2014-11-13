@@ -55,9 +55,12 @@ function resolveResponse (options, callback) {
       for (var key in configSource.headers)
         resp.headers[key] = configSource.headers[key];
     if (configSource.body) {
-      resp.push(JSON.stringify(configSource.body));
+      var body = JSON.stringify(configSource.body);
+      resp.push(body);
       resp.push(null);
+      resp.headers['content-length'] = body.length;
     }
+
     if (typeof callback === 'function')
       callback(resp);
     if (err)
