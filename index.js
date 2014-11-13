@@ -90,7 +90,8 @@ function requestor (type) {
 // config mocks
 function configMock (config) {
   if (config)
-    mockconfigSource = config;
+    for (var url in config)
+      mockconfigSource[url] = config[url];
 }
 
 // inject on http/https
