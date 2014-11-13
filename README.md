@@ -86,7 +86,7 @@ The `config` is an object that maps the router, `Object.keys(config)` should ret
 ```json
 {
   "error": "...your error if you wanna throw",
-  "statusCode": 400,
+  "statusCode": 400, // or status
   "headers": {
     "head1_key": "head1_value"
   },
@@ -95,6 +95,8 @@ The `config` is an object that maps the router, `Object.keys(config)` should ret
 ```
 
 `httpmocker` exports 2nd function `httpmocker.clear([url])`, it provides a way to clear config that you set, it receives one optional argument, if provided, will remove config by `url` that you would pass, if not, will remove all configurations.
+
+**NOTE**: please use `httpmocker` with `NODE_ENV=test`
 
 ### Installation
 
