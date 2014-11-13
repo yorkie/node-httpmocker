@@ -36,6 +36,7 @@ function resolveResponse (options, callback) {
     || (options.port === 443 && options.protocol === 'https'))
     options.port = false;
 
+  options.pathname = options.path;
   var requesturl = url.format(options);
   var configSource;
   for (var prefix in mockconfigSource) {
