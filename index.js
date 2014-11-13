@@ -95,9 +95,19 @@ function configMock (config) {
       mockconfigSource[url] = config[url];
 }
 
+// clear configs
+function clear (url) {
+  if (url)
+    delete mockconfigSource[url];
+  else
+    mockconfigSource = {};
+}
+
 // inject on http/https
 http.request = requestor('http');
 https.request = requestor('https');
 
 // exports
 exports.config = configMock;
+exports.clear = clear;
+

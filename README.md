@@ -2,7 +2,7 @@
 HTTP Mocker
 ===========================
 
-`httpmocker` is a test tool for mock any requests that you are not able to access in your test file.
+`httpmocker` is a testing tool for mocking any requests that you are not able to access in your test file.
 
 ### Features
 
@@ -11,7 +11,7 @@ HTTP Mocker
 
 ### Why?
 
-Sometimes, you may use these third-party modules like `node-ama`, `node-semantics3` those control how the program call requests over HTTP/HTTPS, so if you wanna accurately filter these requests, it's hacky and ugly.
+Sometimes, you may use these third-party modules like `node-aws`, `node-semantics3` those control how the program call requests over HTTP/HTTPS, so if you wanna accurately filter these requests, it's hacky and ugly.
 
 Imagine the following aws codes:
 
@@ -73,7 +73,7 @@ function onresponse (res) {
 
 ### API
 
-For now, module only exports one function `httpmocker.config(config)`, it provides a way to define responses which you are going to expect to mock.
+`httpmocker` exports one function `httpmocker.config(config)`, it provides a way to define responses which you are going to expect to mock.
 
 The `config` is an object that maps the router, `Object.keys(config)` should return urls(prefix) that you wanna mock for testing. And every url prefix should hold a object that like:
 
@@ -87,6 +87,8 @@ The `config` is an object that maps the router, `Object.keys(config)` should ret
   "body": "string/buffer/object, will write to readable instance"
 }
 ```
+
+`httpmocker` exports 2nd function `httpmocker.clear([url])`, it provides a way to clear config that you set, it receives one optional argument, if provided, will remove config by `url` that you would pass, if not, will remove all configurations.
 
 ### Installation
 
