@@ -83,7 +83,7 @@ function onresponse (res) {
 
 The `config` is an object that maps the router, `Object.keys(config)` should return urls(prefix) that you wanna mock for testing. And every url prefix should hold a object that like:
 
-```json
+```js
 {
   "error": "...your error if you wanna throw",
   "statusCode": 400, // or status
