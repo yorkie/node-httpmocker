@@ -1,6 +1,6 @@
 {
   "name": "httpmocker",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "http request mocker",
   "main": "index.js",
   "scripts": {
