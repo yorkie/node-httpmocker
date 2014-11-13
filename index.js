@@ -49,6 +49,7 @@ function resolveResponse (options, callback) {
   
   resp.end = function () {
     var err = configSource.error || null;
+    configSource.statusCode = configSource.statusCode || configSource.status;
     if (configSource.statusCode)
       resp.statusCode = configSource.statusCode;
     if (configSource.headers)
