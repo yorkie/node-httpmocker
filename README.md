@@ -2,6 +2,12 @@
 HTTP Mocker
 ===========================
 
+[![Build Status](https://travis-ci.org/yorkie/node-httpmocker.svg)](https://travis-ci.org/yorkie/node-httpmocker)
+
+[![NPM](https://nodei.co/npm/httpmocker.png?stars&downloads)](https://nodei.co/npm/httpmocker/)
+
+[![NPM](https://nodei.co/npm-dl/httpmocker.png)](https://nodei.co/npm/httpmocker/)
+
 `httpmocker` is a testing tool for mocking any requests that you are not able to access in your test file.
 
 ### Features
