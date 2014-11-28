@@ -23,6 +23,8 @@ test('http.get mocking', function (t) {
     path: '/demo'
   }, function (res) {
     t.equal(res.statusCode, 302);
+    t.equal('function', typeof res.end);
+    t.equal('function', typeof res.setTimeout);
     res.pipe(es.wait(function (err, text) {
       t.equal(text+'', '"abcdefg"');
       t.end();
@@ -38,6 +40,8 @@ test('http.request mocking', function (t) {
   });
   req.on('response', function (res) {
     t.equal(res.statusCode, 302);
+    t.equal('function', typeof res.end);
+    t.equal('function', typeof res.setTimeout);
     res.pipe(es.wait(function (err, text) {
       t.equal(text+'', '"abcdefg"');
       t.end();
@@ -53,6 +57,8 @@ test('https.get mocker', function (t) {
     path: '/demo'
   }, function (res) {
     t.equal(res.statusCode, 200);
+    t.equal('function', typeof res.end);
+    t.equal('function', typeof res.setTimeout);
     res.pipe(es.wait(function (err, text) {
       t.equal(text+'', JSON.stringify({foo:'bar'}));
       t.end();
@@ -68,6 +74,8 @@ test('https.request mocker', function (t) {
   });
   req.on('response', function (res) {
     t.equal(res.statusCode, 200);
+    t.equal('function', typeof res.end);
+    t.equal('function', typeof res.setTimeout);
     res.pipe(es.wait(function (err, text) {
       t.equal(text+'', JSON.stringify({foo:'bar'}));
       t.end();
