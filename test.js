@@ -27,6 +27,7 @@ test('http.get mocking', function (t) {
     host: 'apis.google.com',
     path: '/demo'
   }, function (res) {
+    t.deepEqual(httpmocker.last, {url: 'http://apis.google.com/demo', method: 'GET'});
     t.equal(res.statusCode, 302);
     t.equal('function', typeof res.end);
     t.equal('function', typeof res.setTimeout);
@@ -44,6 +45,7 @@ test('http.request mocking', function (t) {
     path: '/demo'
   });
   req.on('response', function (res) {
+    t.deepEqual(httpmocker.last, {url: 'http://apis.google.com/demo', method: 'POST'});
     t.equal(res.statusCode, 302);
     t.equal('function', typeof res.end);
     t.equal('function', typeof res.setTimeout);
@@ -61,6 +63,7 @@ test('https.get mocker', function (t) {
     host: 'apis.yota.com',
     path: '/demo'
   }, function (res) {
+    t.deepEqual(httpmocker.last, {url: 'https://apis.yota.com/demo', method: 'GET'});
     t.equal(res.statusCode, 200);
     t.equal('function', typeof res.end);
     t.equal('function', typeof res.setTimeout);
@@ -78,6 +81,7 @@ test('https.request mocker', function (t) {
     path: '/demo'
   });
   req.on('response', function (res) {
+    t.deepEqual(httpmocker.last, {url: 'https://apis.yota.com/demo', method: 'POST'});
     t.equal(res.statusCode, 200);
     t.equal('function', typeof res.end);
     t.equal('function', typeof res.setTimeout);
@@ -96,6 +100,7 @@ test('https.request mocker with xml type', function (t) {
     path: '/demo'
   });
   req.on('response', function (res) {
+    t.deepEqual(httpmocker.last, {url: 'https://apis.xmljs.com/demo', method: 'POST'});
     t.equal(res.statusCode, 200);
     t.equal('function', typeof res.end);
     t.equal('function', typeof res.setTimeout);

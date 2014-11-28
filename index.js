@@ -8,6 +8,8 @@ var util = require('util');
 var originHttpRequest = http.request;
 var originHttpsRequest = https.request;
 var mockconfigSource = {};
+var latestRequestURL = null;
+var latestRequestMethod = null;
 
 util.inherits(OutgoingMessage, stream.Readable);
 function OutgoingMessage () {
@@ -46,6 +48,10 @@ function resolveResponse (options, callback) {
 
   if (!configSource)
     return false;
+  else {
+    latestRequestURL = requesturl;
+    latestRequestMethod = options.method || 'GET';
+  }
   
   resp.setTimeout = function () {
     // For now, this function will never be called because of in test environment,
@@ -121,6 +127,15 @@ http.request = requestor('http');
 https.request = requestor('https');
 
 // exports
-exports.config = configMock;
-exports.clear = clear;
+module.exports = {
 
+  config: configMock,
+  clear: clear,
+
+  get last () {
+    return {
+      method: latestRequestMethod,
+      url: latestRequestURL
+    };
+  }
+};
