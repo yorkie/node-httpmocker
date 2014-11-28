@@ -13,6 +13,11 @@ httpmocker.config({
   'https://apis.yota.com/': {
     statusCode: 200,
     body: { foo: 'bar' }
+  },
+  'https://apis.xmljs.com/': {
+    statusCode: 200,
+    headers: {'content-type': 'application/xml'},
+    body: '<xml></xml>'
   }
 });
 
@@ -78,6 +83,24 @@ test('https.request mocker', function (t) {
     t.equal('function', typeof res.setTimeout);
     res.pipe(es.wait(function (err, text) {
       t.equal(text+'', JSON.stringify({foo:'bar'}));
+      t.end();
+    }));
+  });
+  req.end();
+});
+
+test('https.request mocker with xml type', function (t) {
+  var req = https.request({
+    method: 'POST',
+    host: 'apis.xmljs.com',
+    path: '/demo'
+  });
+  req.on('response', function (res) {
+    t.equal(res.statusCode, 200);
+    t.equal('function', typeof res.end);
+    t.equal('function', typeof res.setTimeout);
+    res.pipe(es.wait(function (err, text) {
+      t.equal(text+'', '<xml></xml>')
       t.end();
     }));
   });

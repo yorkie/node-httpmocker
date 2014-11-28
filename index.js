@@ -51,7 +51,7 @@ function resolveResponse (options, callback) {
     // For now, this function will never be called because of in test environment,
     // but TODO: support timeout in config
   };
-  
+
   resp.end = function () {
     var err = configSource.error || null;
     configSource.statusCode = configSource.statusCode || configSource.status;
@@ -59,9 +59,13 @@ function resolveResponse (options, callback) {
       resp.statusCode = configSource.statusCode;
     if (configSource.headers)
       for (var key in configSource.headers)
-        resp.headers[key] = configSource.headers[key];
+        resp.headers[key.toLowerCase()] = configSource.headers[key];
     if (configSource.body) {
-      var body = JSON.stringify(configSource.body);
+      var body;
+      if (!resp.headers['content-type'] || resp.headers['content-type'].search('application/json') === 0)
+        body = JSON.stringify(configSource.body);
+      else
+        body = configSource.body.toString();
       resp.push(body);
       resp.push(null);
       resp.headers['content-length'] = body.length;
