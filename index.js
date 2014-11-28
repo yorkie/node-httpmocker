@@ -47,6 +47,11 @@ function resolveResponse (options, callback) {
   if (!configSource)
     return false;
   
+  resp.setTimeout = function () {
+    // For now, this function will never be called because of in test environment,
+    // but TODO: support timeout in config
+  };
+  
   resp.end = function () {
     var err = configSource.error || null;
     configSource.statusCode = configSource.statusCode || configSource.status;
