@@ -52,7 +52,7 @@ function resolveResponse (options, callback) {
     latestRequestURL = requesturl;
     latestRequestMethod = options.method || 'GET';
   }
-  
+
   resp.setTimeout = function () {
     // For now, this function will never be called because of in test environment,
     // but TODO: support timeout in config
@@ -63,12 +63,13 @@ function resolveResponse (options, callback) {
     configSource.statusCode = configSource.statusCode || configSource.status;
     if (configSource.statusCode)
       resp.statusCode = configSource.statusCode;
-    if (configSource.headers)
-      for (var key in configSource.headers)
+    if (configSource.headers || configSource.header)
+      for (var key in (configSource.headers || configSource.header))
         resp.headers[key.toLowerCase()] = configSource.headers[key];
     if (configSource.body) {
       var body;
-      if (!resp.headers['content-type'] || resp.headers['content-type'].search('application/json') === 0)
+      if (!resp.headers['content-type'] ||
+        resp.headers['content-type'].search('application/json') === 0)
         body = JSON.stringify(configSource.body);
       else
         body = configSource.body.toString();
@@ -94,7 +95,7 @@ function requestor (type) {
   return function (options, callback) {
     var ret;
     options.protocol = type;
-    if (process.env.NODE_ENV === 'test' 
+    if (process.env.NODE_ENV === 'test'
       && (ret = resolveResponse(options, callback))) {
       return ret;
     } else if (type === 'https') {
