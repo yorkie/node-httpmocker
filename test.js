@@ -18,6 +18,9 @@ httpmocker.config({
     statusCode: 200,
     headers: {'content-type': 'application/xml'},
     body: '<xml></xml>'
+  },
+  'https://apis.no-body.com/': {
+    statusCode: 400
   }
 });
 
@@ -112,3 +115,17 @@ test('https.request mocker with xml type', function (t) {
   req.end();
 });
 
+test('https.request mocker without body', function (t) {
+  var req = https.request({
+    method: 'GET',
+    host: 'apis.no-body.com',
+    path: '/demo'
+  });
+  req.on('response', function (res) {
+    res.pipe(es.wait(function (err, text) {
+      t.equal(text.length, 0);
+      t.end();
+    }));
+  });
+  req.end();
+});

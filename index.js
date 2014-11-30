@@ -66,17 +66,20 @@ function resolveResponse (options, callback) {
     if (configSource.headers || configSource.header)
       for (var key in (configSource.headers || configSource.header))
         resp.headers[key.toLowerCase()] = configSource.headers[key];
+
+    var body;
     if (configSource.body) {
-      var body;
       if (!resp.headers['content-type'] ||
         resp.headers['content-type'].search('application/json') === 0)
         body = JSON.stringify(configSource.body);
       else
         body = configSource.body.toString();
-      resp.push(body);
-      resp.push(null);
       resp.headers['content-length'] = body.length;
+    } else {
+      body = '';
     }
+    resp.push(body);
+    resp.push(null);
 
     if (typeof callback === 'function')
       callback(resp);
