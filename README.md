@@ -57,6 +57,11 @@ configmock({
       'Content-Type': 'application/json'
     },
     body: {foo: 'bar'}
+  }, {
+  'https://example.com/users/:id': {
+    error: null,
+    statusCode: 404,
+    body: 'not found'
   }
 });
 ```

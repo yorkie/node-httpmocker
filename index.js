@@ -1,9 +1,10 @@
 
 var url = require('url');
+var util = require('util');
 var http = require('http');
 var https = require('https');
 var stream = require('stream');
-var util = require('util');
+var pathToRegexp = require('path-to-regexp');
 
 var originHttpRequest = http.request;
 var originHttpsRequest = https.request;
@@ -41,8 +42,10 @@ function resolveResponse (options, callback) {
   options.pathname = options.path;
   var requesturl = url.format(options);
   var configSource;
-  for (var prefix in mockconfigSource) {
-    if (requesturl.search(prefix) !== -1)
+  var configs = Object.keys(mockconfigSource).reverse();
+  for (var i = 0; i < configs.length; i++) {
+    var prefix = configs[i];
+    if (urlMatch(requesturl, prefix))
       configSource = mockconfigSource[prefix];
   }
 
@@ -116,6 +119,25 @@ function configMock (config) {
   if (config)
     for (var url in config)
       mockconfigSource[url] = config[url];
+}
+
+//
+// check request url match the config mock url
+//
+function urlMatch (requestUrl, mockUrl) {
+  if (requestUrl === mockUrl)
+    return true;
+
+  var parsedRequestUrl = url.parse(requestUrl);
+  var parsedMockUrl = url.parse(mockUrl);
+
+  if (pathToRegexp(parsedMockUrl.path, [], {}).exec(parsedRequestUrl.path))
+    return true;
+
+  if (requestUrl.search(mockUrl) !== -1)
+    return true;
+
+  return false;
 }
 
 // clear configs
