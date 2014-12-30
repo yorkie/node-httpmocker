@@ -21,6 +21,14 @@ httpmocker.config({
   },
   'https://apis.no-body.com/': {
     statusCode: 400
+  },
+  'http://routes.com/users/:id': {
+    statusCode: 404,
+    body: 'not found'
+  },
+  'http://routes.com/status': {
+    statusCode: 200,
+    body: 'ok'
   }
 });
 
@@ -108,7 +116,7 @@ test('https.request mocker with xml type', function (t) {
     t.equal('function', typeof res.end);
     t.equal('function', typeof res.setTimeout);
     res.pipe(es.wait(function (err, text) {
-      t.equal(text+'', '<xml></xml>')
+      t.equal(text+'', '<xml></xml>');
       t.end();
     }));
   });
@@ -128,4 +136,34 @@ test('https.request mocker without body', function (t) {
     }));
   });
   req.end();
+});
+
+test('http.get mocker with route', function (t) {
+  http.get({
+    host: 'routes.com',
+    path: '/users/123'
+  }, function (res) {
+    t.equal(res.statusCode, 404);
+    t.equal('function', typeof res.end);
+    t.equal('function', typeof res.setTimeout);
+    res.pipe(es.wait(function (err, text) {
+      t.equal(text+'', '"not found"');
+      t.end();
+    }));
+  });
+});
+
+test('http.get mocker with route', function (t) {
+  http.get({
+    host: 'routes.com',
+    path: '/status/api'
+  }, function (res) {
+    t.equal(res.statusCode, 200);
+    t.equal('function', typeof res.end);
+    t.equal('function', typeof res.setTimeout);
+    res.pipe(es.wait(function (err, text) {
+      t.equal(text+'', '"ok"');
+      t.end();
+    }));
+  });
 });
