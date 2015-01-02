@@ -39,7 +39,7 @@ function resolveResponse (options, callback) {
     || (options.port === 443 && options.protocol === 'https'))
     options.port = false;
 
-  if (!(typeof options.auth === 'string'))
+  if (options.auth && !(typeof options.auth === 'string')) {
     var str = options.auth.user + ':' + options.auth.pass;
     options.auth = str;
   }
