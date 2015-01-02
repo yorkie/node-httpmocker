@@ -29,6 +29,10 @@ httpmocker.config({
   'http://routes.com/status': {
     statusCode: 200,
     body: 'ok'
+  },
+  'http://user:pass@auth.com/': {
+    statusCode: 200,
+    body: 'ok'
   }
 });
 
@@ -157,6 +161,41 @@ test('http.get mocker with route', function (t) {
   http.get({
     host: 'routes.com',
     path: '/status/api'
+  }, function (res) {
+    t.equal(res.statusCode, 200);
+    t.equal('function', typeof res.end);
+    t.equal('function', typeof res.setTimeout);
+    res.pipe(es.wait(function (err, text) {
+      t.equal(text+'', '"ok"');
+      t.end();
+    }));
+  });
+});
+
+test('auth string', function (t) {
+  http.get({
+    host: 'auth.com',
+    path: '/',
+    auth: 'user:pass'
+  }, function (res) {
+    t.equal(res.statusCode, 200);
+    t.equal('function', typeof res.end);
+    t.equal('function', typeof res.setTimeout);
+    res.pipe(es.wait(function (err, text) {
+      t.equal(text+'', '"ok"');
+      t.end();
+    }));
+  });
+});
+
+test('auth object', function (t) {
+  http.get({
+    host: 'auth.com',
+    path: '/',
+    auth: {
+      user: 'user',
+      pass: 'pass'
+    }
   }, function (res) {
     t.equal(res.statusCode, 200);
     t.equal('function', typeof res.end);

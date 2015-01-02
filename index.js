@@ -39,14 +39,21 @@ function resolveResponse (options, callback) {
     || (options.port === 443 && options.protocol === 'https'))
     options.port = false;
 
+  if (options.auth && options.auth.user && options.auth.pass) {
+    var str = options.auth.user + ':' + options.auth.pass;
+    options.auth = str;
+  }
+
   options.pathname = options.path;
   var requesturl = url.format(options);
   var configSource;
   var configs = Object.keys(mockconfigSource).reverse();
   for (var i = 0; i < configs.length; i++) {
     var prefix = configs[i];
-    if (urlMatch(requesturl, prefix))
+    if (urlMatch(requesturl, prefix)) {
       configSource = mockconfigSource[prefix];
+      break;
+    }
   }
 
   if (!configSource)
