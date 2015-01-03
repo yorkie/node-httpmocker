@@ -139,6 +139,10 @@ function urlMatch (requestUrl, mockUrl) {
   var parsedMockUrl = url.parse(mockUrl);
 
   if (parsedRequestUrl.host === parsedMockUrl.host &&
+      parsedRequestUrl.port === parsedMockUrl.port &&
+      parsedRequestUrl.auth === parsedMockUrl.auth &&
+      parsedRequestUrl.search === parsedMockUrl.search &&
+      parsedRequestUrl.protocol === parsedMockUrl.protocol &&
       pathToRegexp(parsedMockUrl.path, [], {}).exec(parsedRequestUrl.path)) {
     return true;
   }
