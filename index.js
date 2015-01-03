@@ -138,11 +138,14 @@ function urlMatch (requestUrl, mockUrl) {
   var parsedRequestUrl = url.parse(requestUrl);
   var parsedMockUrl = url.parse(mockUrl);
 
-  if (pathToRegexp(parsedMockUrl.path, [], {}).exec(parsedRequestUrl.path))
+  if (parsedRequestUrl.host === parsedMockUrl.host &&
+      pathToRegexp(parsedMockUrl.path, [], {}).exec(parsedRequestUrl.path)) {
     return true;
+  }
 
-  if (requestUrl.search(mockUrl) !== -1)
+  if (requestUrl.search(mockUrl) !== -1) {
     return true;
+  }
 
   return false;
 }
