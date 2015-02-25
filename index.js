@@ -82,6 +82,8 @@ function resolveResponse (options, callback) {
       if (!resp.headers['content-type'] ||
         resp.headers['content-type'].search('application/json') === 0)
         body = JSON.stringify(configSource.body);
+      else if (Buffer.isBuffer(configSource.body))
+        body = configSource.body;
       else
         body = configSource.body.toString();
       resp.headers['content-length'] = body.length;

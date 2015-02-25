@@ -33,6 +33,11 @@ httpmocker.config({
   'http://user:pass@auth.com/': {
     statusCode: 200,
     body: 'ok'
+  },
+  'http://buffer-body.com/': {
+    statusCode: 200,
+    headers: {'content-type': 'octstream'},
+    body: new Buffer('abc')
   }
 });
 
@@ -206,3 +211,20 @@ test('auth object', function (t) {
     }));
   });
 });
+
+test('buffer-body', function (t) {
+  http.get({
+    host: 'buffer-body.com',
+    path: '/'
+  }, function (res) {
+    t.equal(res.statusCode, 200);
+    t.equal('function', typeof res.end);
+    t.equal('function', typeof res.setTimeout);
+    res.on('data', function (data) {
+      t.equal(data+'', 'abc');
+      t.end();
+    });
+  });
+});
+
+
